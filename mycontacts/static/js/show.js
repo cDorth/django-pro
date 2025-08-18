@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactsGrid = document.getElementById('contactsGrid');
     const contactCards = document.querySelectorAll('.contact-card');
 
+    // 🔹 Forçar estilo inicial igual ao da pesquisa
+    contactCards.forEach(function(card) {
+        card.style.display = 'block';
+        card.style.animation = 'fadeIn 0.3s ease-in';
+    });
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();

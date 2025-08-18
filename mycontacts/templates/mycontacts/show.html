@@ -1,22 +1,119 @@
+
 {% extends 'mycontacts/background.html' %}
 {% load static %}
 
+{% block title %}Meus Contatos{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/show.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
 {% block content %}
-<div class="container-show">
-    <ul class="grid" style="list-style-type: none">
-        
-    {% for contact in contacts %}
-    <li>
-        <div>
-            <h2 class="name">{{ contact.name }}</h2>
-            <div class="relation">{{ contact.relation }}</div>
-            <div class="phone">{{ contact.phone }}</div>
-            <div class="email"><a href='{{ contact.email }}'>{{ contact.email }}</a> </div>
+<div class="header">
+    <div class="container">
+        <div class="logo">
+            <i class="fas fa-address-book"></i>
+            <h1>Meus Contatos</h1>
         </div>
-    </li>
-    {%  endfor %}
-    
-    </ul>
-</div>      
-{% endblock content %}
+        <div class="header-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Buscar contatos...">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas fa-check-circle"></i>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="main-container">
+    <div class="page-header">
+        <h1 class="page-title">Sistema de Contatos</h1>
+        <p class="page-subtitle">Gerencie seus contatos de forma simples e eficiente</p>
+    </div>
+
+    <div class="action-bar">
+        <div class="contact-stats">
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <div>
+                    <div class="stat-number">{{ contacts|length }}</div>
+                    <div class="stat-label">Total de Contatos</div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="{% url 'add' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Adicionar Contato
+        </a>
+    </div>
+
+    {% if contacts %}
+        <div class="contacts-grid" id="contactsGrid">
+            {% for contact in contacts %}
+                <div class="contact-card" data-name="{{ contact.name|lower }}" data-relation="{{ contact.relation|lower }}">
+                    <div class="contact-header">
+                        <div class="contact-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h3>{{ contact.name }}</h3>
+                            <span class="contact-relation">
+                                <i class="fas fa-heart"></i>
+                                {{ contact.relation }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-phone"></i>
+                            <span>{{ contact.phone }}</span>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span>{{ contact.email }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-actions">
+                        <a href="{% url 'edit' contact.id %}" class="btn btn-edit">
+                            <i class="fas fa-edit"></i>
+                            Editar
+                        </a>
+                        <a href="{% url 'delete' contact.id %}" class="btn btn-delete">
+                            <i class="fas fa-trash"></i>
+                            Excluir
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-address-book"></i>
+            <h2>Nenhum contato encontrado</h2>
+            <p>Comece adicionando seu primeiro contato ao sistema</p>
+            <a href="{% url 'add' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Adicionar Primeiro Contato
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/show.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+
+{% extends 'mycontacts/background.html' %}
+{% load static %}
+
+{% block title %}Excluir Contato{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/delete.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="delete-container">
+        <div class="delete-header">
+            <i class="fas fa-exclamation-triangle warning-icon"></i>
+            <h1>Confirmar Exclusão</h1>
+            <p>Tem certeza que deseja excluir este contato?</p>
+        </div>
+        
+        <div class="contact-info">
+            <div class="contact-card">
+                <div class="contact-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="contact-details">
+                    <h3>{{ contact.name }}</h3>
+                    <p><i class="fas fa-heart"></i> {{ contact.relation }}</p>
+                    <p><i class="fas fa-phone"></i> {{ contact.phone }}</p>
+                    <p><i class="fas fa-envelope"></i> {{ contact.email }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="delete-actions">
+            <form method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Sim, Excluir
+                </button>
+            </form>
+            <a href="{% url 'show' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

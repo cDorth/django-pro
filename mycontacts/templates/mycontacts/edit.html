@@ -1,0 +1,64 @@
+
+{% extends 'mycontacts/background.html' %}
+{% load static %}
+
+{% block title %}Editar Contato{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/add.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <div class="form-header">
+            <h1><i class="fas fa-edit"></i> Editar Contato</h1>
+            <p>Atualize as informações do contato</p>
+        </div>
+        
+        <form method="post" class="contact-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">
+                    <i class="fas fa-user"></i> Nome
+                </label>
+                {{ form.name }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.relation.id_for_label }}">
+                    <i class="fas fa-heart"></i> Relação
+                </label>
+                {{ form.relation }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">
+                    <i class="fas fa-phone"></i> Telefone
+                </label>
+                {{ form.phone }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">
+                    <i class="fas fa-envelope"></i> Email
+                </label>
+                {{ form.email }}
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Atualizar Contato
+                </button>
+                <a href="{% url 'show' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/add.js' %}"></script>
+{% endblock %}
